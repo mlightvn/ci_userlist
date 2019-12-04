@@ -16,7 +16,7 @@
 					<?php foreach($model_list['data'] as $key =>$model) { ?>
 					<tr>
 						<td><?php echo $model->id; ?></td>
-						<td><a href="./users/edit/<?php echo $model->id; ?>"><?php echo $model->name; ?></a></td>
+						<td><a href="<?=base_url();?>users/show/<?php echo $model->id; ?>"><?php echo $model->name; ?></a></td>
 						<td><?php echo $model->email; ?></td>
 						<td>
 							<a href="<?=base_url();?>users/edit/<?php echo $model->id; ?>" class="btn btn-sm btn-outline-primary"><i class="fas fa-pencil-alt"></i></a>

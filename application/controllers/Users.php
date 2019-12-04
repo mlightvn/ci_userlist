@@ -112,4 +112,17 @@ class Users extends CI_Controller {
 		redirect('/users', 'refresh');
 	}
 
+	public function show($id)
+	{
+		// $this->load->helper(array('url'));
+
+		$this->load->model('user');
+		$data["model"] = $this->user->find($id);
+		$data['title'] = "詳細";
+
+		$this->load->view('layouts/header', $data);
+		$this->load->view('users/show', $data);
+		$this->load->view('layouts/footer');
+	}
+
 }
