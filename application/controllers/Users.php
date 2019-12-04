@@ -90,7 +90,8 @@ class Users extends CI_Controller {
         $this->load->library('form_validation');
         $errors_validation_range = array(
         	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.'))
+        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
+        	array('field'=>'password', 'label'=>'Password', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
         );
         $this->form_validation->set_rules($errors_validation_range);
 

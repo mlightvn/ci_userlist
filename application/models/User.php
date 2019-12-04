@@ -2,18 +2,20 @@
 
 class User extends CI_Model {
 
-	public $email;
-	public $name;
+	public $fillable = ['email', 'name', 'password'];
 
 	public function paginate($page_row = 20)
 	{
+		// $this->load->library('encrypt');
+
 		$per_page = ($this->uri->segment(3)) ? ($this->uri->segment(3)) : 1;
 
 		$segment = ($per_page - 1) * $page_row;
         // ==================
-		foreach ($_GET as $post_name => $post_value) {
+		foreach ($this->fillable as $index => $post_name) {
+			$post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
-				$this->db->where($post_name, $post_value);
+				$this->db->where($post_name, 'LIKE', '%' . $post_value . '%');
 			}
 		}
 	    $this->db->from('users');
@@ -21,7 +23,8 @@ class User extends CI_Model {
         $total_rows = $query->num_rows();
 
         // ==================
-		foreach ($_GET as $post_name => $post_value) {
+		foreach ($this->fillable as $index => $post_name) {
+			$post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->where($post_name, $post_value);
 			}
@@ -35,7 +38,7 @@ class User extends CI_Model {
 
 		$paginate['uri_segment'] = 3;
 		$paginate['per_page'] = $page_row;
-		// $paginate['num_links'] = 5;
+		// $paginate['num_links'] = 20;
 		$paginate['use_page_numbers'] = TRUE;
 		// $paginate['page_query_string'] = TRUE;
 
@@ -58,16 +61,30 @@ class User extends CI_Model {
 
 	public function save()
 	{
-		$this->email    = $_POST['email'];
-		$this->name  	= $_POST['name'];
+		foreach ($this->fillable as $index => $post_name) {
+			$post_value = ($_REQUEST[$post_name] ?? NULL);
+			if($post_value){
+				// if($post_name === 'password'){
+				// 	$post_value = $this->encrypt->encode($post_value);
+				// }
+				$this->$post_name  	= $post_value;
+			}
+		}
 
 		$this->db->insert('users', $this);
 	}
 
 	public function update()
 	{
-		$this->email    = $_POST['email'];
-		$this->name  	= $_POST['name'];
+		foreach ($this->fillable as $index => $post_name) {
+			$post_value = ($_REQUEST[$post_name] ?? NULL);
+			if($post_value){
+				// if($post_name === 'password'){
+				// 	$post_value = $this->encrypt->encode($post_value);
+				// }
+				$this->$post_name  	= $post_value;
+			}
+		}
 
 		$this->db->update('users', $this, array('id' => $_POST['id']));
 	}

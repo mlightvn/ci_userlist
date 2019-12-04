@@ -14,6 +14,10 @@
 						<th>email</th>
 						<td><?php echo ($model->email ?? ''); ?></td>
 					</tr>
+					<tr>
+						<th>Password</th>
+						<td><?php echo ($model->password ?? ''); ?></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

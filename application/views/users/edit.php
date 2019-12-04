@@ -16,6 +16,10 @@
 					<th>email</th>
 					<td><input type="email" name="email" class="form-control" value="<?php echo $model->email; ?>"></td>
 				</tr>
+				<tr>
+					<th>Password</th>
+					<td><input type="password" name="password" class="form-control" value="<?php echo ($model->password ?? ''); ?>"></td>
+				</tr>
 
 				<tr>
 					<td colspan="2" align="center"><button type="submit" class="btn btn-outline-primary">編集</button></td>
