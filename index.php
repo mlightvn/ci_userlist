@@ -54,10 +54,12 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 
+define('PRODUCTION_DOMAIN', 'ci3.rakupons.net');
+
 $domain = strtolower($_SERVER['HTTP_HOST']);
 
 switch($domain) {
-	case 'ci3.rakupons.net':
+	case PRODUCTION_DOMAIN:
 		define('ENVIRONMENT', 'production');
 	break;
 
