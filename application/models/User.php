@@ -7,9 +7,10 @@ class User extends CI_Model {
 
 	public function paginate($page_row = 20)
 	{
-		$page = ($this->uri->segment(3)) ? ($this->uri->segment(3) - 1) : 0;
-		$per_page = ($_GET["per_page"] ?? 1);
-		unset($_GET["per_page"]);
+		$per_page = ($this->uri->segment(3)) ? ($this->uri->segment(3)) : 1;
+// dd($per_page);
+		// $per_page = ($_GET["per_page"] ?? 1);
+		// unset($_GET["per_page"]);
 		$segment = ($per_page - 1) * $page_row;
         // ==================
 		foreach ($_GET as $post_name => $post_value) {
@@ -36,9 +37,9 @@ class User extends CI_Model {
 
 		$paginate['uri_segment'] = 3;
 		$paginate['per_page'] = $page_row;
-		$paginate['num_links'] = 20;
+		// $paginate['num_links'] = 5;
 		$paginate['use_page_numbers'] = TRUE;
-		$paginate['page_query_string'] = TRUE;
+		// $paginate['page_query_string'] = TRUE;
 
 		$result = array('paginate' => $paginate, 'data' => $query->result());
 

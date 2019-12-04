@@ -53,14 +53,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 
 // https://www.guru99.com/codeigniter-url-routing.html
-$route['users'] = 'users/index';
-$route['users/page/:per_page'] = 'users/index';
-$route['users/create'] = 'users/create';
-$route['users/edit/:id'] = 'users/edit';
-$route['users/store'] = 'users/store';
-$route['users/update/:id'] = 'users/update';
-$route['users/delete/:id'] = 'users/delete';
-$route['users/:id'] = 'users/show';
+// $route['users'] = 'users/index';
+// $route['users/page/:per_page'] = 'users/index';
+// $route['users/create'] = 'users/create';
+// $route['users/edit/:id'] = 'users/edit';
+// $route['users/store'] = 'users/store';
+// $route['users/update/:id'] = 'users/update';
+// $route['users/delete/:id'] = 'users/delete';
+// $route['users/:id'] = 'users/show';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

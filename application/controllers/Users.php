@@ -20,15 +20,18 @@ class Users extends CI_Controller {
 	 */
 	public function index()
 	{
+		$this->page(1);
+	}
+	public function page($page = 1)
+	{
 		$this->load->model('user');
 		$data['model_list'] = $this->user->paginate(10);
-// dd($data['model_list']);
+
 		$data['title'] = "ユーザシステム";
 
 		$this->load->library('pagination');
 
-		$data['model_list']['paginate']['base_url'] = base_url() . 'users';
-
+		$data['model_list']['paginate']['base_url'] = base_url('users/page');
 
 		$this->pagination->initialize($data['model_list']['paginate']);
 

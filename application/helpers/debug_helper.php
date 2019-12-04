@@ -7,10 +7,16 @@ if ( ! function_exists('d'))
 	function d($data){
 	    if(is_null($data)){
 	        $str = "<i>NULL</i>";
-	    }elseif($data == ""){
+	    }elseif($data === ""){
 	        $str = "<i>Empty</i>";
+	    }elseif($data === true){
+	        $str = "<font color='red'><i>True</i></font>";
+	    }elseif($data === false){
+	        $str = "<font color='red'><i>False</i></font>";
+	    }elseif(is_numeric($data)){
+	        $str = "<font color='red'><i>" . $data . "</i></font>";
 	    }elseif(is_array($data)){
-	        if(count($data) == 0){
+	        if(count($data) === 0){
 	            $str = "<i>Empty array.</i>";
 	        }else{
 	            $str = "<table style=\"border-bottom:0px solid #000;\" cellpadding=\"0\" cellspacing=\"0\">";
