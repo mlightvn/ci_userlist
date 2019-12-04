@@ -13,7 +13,7 @@ class User extends CI_Model {
 		foreach ($_REQUEST as $post_name => $post_value) {
 			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
-				$this->db->where($post_name, 'LIKE', '%' . $post_value . '%');
+				$this->db->like($post_name, $post_value);
 			}
 		}
 	    $this->db->from('users');
@@ -24,7 +24,7 @@ class User extends CI_Model {
 		foreach ($_REQUEST as $post_name => $post_value) {
 			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
-				$this->db->where($post_name, $post_value);
+				$this->db->like($post_name, $post_value);
 			}
 		}
 	    $this->db->from('users');

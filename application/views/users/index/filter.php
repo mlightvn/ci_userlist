@@ -14,7 +14,7 @@
 				</tr>
 				<tr>
 					<th>email</th>
-					<td><input type="email" name="email" value="<?= $_GET['email'] ?? ''; ?>" class="form-control"></td>
+					<td><input type="text" name="email" value="<?= $_GET['email'] ?? ''; ?>" class="form-control"></td>
 				</tr>
 
 			</table>
