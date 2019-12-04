@@ -24,7 +24,6 @@ class Users extends CI_Controller {
 	}
 	public function page($page = 1)
 	{
-// dd($_SERVER['CI_ENV']);
 		$this->load->model('user');
 		$data['model_list'] = $this->user->paginate(10);
 

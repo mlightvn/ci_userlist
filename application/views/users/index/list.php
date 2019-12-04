@@ -15,8 +15,8 @@
 				<tbody>
 					<?php foreach($model_list['data'] as $key =>$model) { ?>
 					<tr>
-						<td><?php echo $model->id; ?></td>
-						<td><a href="<?=base_url();?>users/show/<?php echo $model->id; ?>"><?php echo $model->name; ?></a></td>
+						<td><a href="<?=base_url();?>users/show/<?php echo $model->id; ?>"><i class="fas fa-info-circle"></i> <?php echo str_pad($model->id, 5, '0', STR_PAD_LEFT); ?></a></td>
+						<td><?php echo $model->name; ?></td>
 						<td><?php echo $model->email; ?></td>
 						<td>
 							<a href="<?=base_url();?>users/edit/<?php echo $model->id; ?>" class="btn btn-sm btn-outline-primary"><i class="fas fa-pencil-alt"></i></a>
