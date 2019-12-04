@@ -324,6 +324,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
+// $key = bin2hex($this->encryption->create_key(16));
 $config['encryption_key'] = 'NamScrypt';
 
 /*

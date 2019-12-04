@@ -6,8 +6,6 @@ class User extends CI_Model {
 
 	public function paginate($page_row = 20)
 	{
-		// $this->load->library('encrypt');
-
 		$per_page = ($this->uri->segment(3)) ? ($this->uri->segment(3)) : 1;
 
 		$segment = ($per_page - 1) * $page_row;
@@ -61,12 +59,14 @@ class User extends CI_Model {
 
 	public function save()
 	{
+		$this->load->helper('password');
+
 		foreach ($this->fillable as $index => $post_name) {
 			$post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
-				// if($post_name === 'password'){
-				// 	$post_value = $this->encrypt->encode($post_value);
-				// }
+				if($post_name === 'password'){
+					$post_value = getHashedPassword($post_value);
+				}
 				$this->$post_name  	= $post_value;
 			}
 		}
@@ -76,12 +76,14 @@ class User extends CI_Model {
 
 	public function update()
 	{
+		$this->load->helper('password');
+
 		foreach ($this->fillable as $index => $post_name) {
 			$post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
-				// if($post_name === 'password'){
-				// 	$post_value = $this->encrypt->encode($post_value);
-				// }
+				if($post_name === 'password'){
+					$post_value = getHashedPassword($post_value);
+				}
 				$this->$post_name  	= $post_value;
 			}
 		}
