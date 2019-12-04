@@ -53,7 +53,20 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+
+$domain = strtolower($_SERVER['HTTP_HOST']);
+
+switch($domain) {
+	case 'ci3.rakupons.net':
+		define('ENVIRONMENT', 'production');
+	break;
+
+	default:
+		define('ENVIRONMENT', 'development');
+	break;
+}
+
+	// define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------

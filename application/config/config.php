@@ -23,8 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['base_url'] = '';
-$config['base_url'] = 'http://localhost:8080/ci3';
+if((!defined('ENVIRONMENT')) || (ENVIRONMENT !== 'production') ) {
+	$config['base_url'] = 'http://localhost:8080/ci3';
+}else{
+	$config['base_url'] = '';
+}
 /*
 |--------------------------------------------------------------------------
 | Index File
