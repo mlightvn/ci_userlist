@@ -42,6 +42,8 @@ class Users extends CI_Controller {
 
 	public function create()
 	{
+		$this->load->helper(array('form', 'url'));
+
 		$data['title'] = "ユーザシステム";
 		$this->load->view('layouts/header', $data);
 		$this->load->view('users/create');
@@ -50,20 +52,27 @@ class Users extends CI_Controller {
 
 	public function store()
 	{
-		$this->load->model('user');
+        $this->load->library('form_validation');
+        $errors_validation_range = array(
+        	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
+        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.'))
+        );
+        $this->form_validation->set_rules($errors_validation_range);
 
-		$data["model"] = $this->user->save();
+        if ($this->form_validation->run() === FALSE){
+			$this->create();
+        }else{
+			$this->load->model('user');
 
-		// header('Location: ../users');
-		// exit;
-		redirect('/users', 'refresh');
+			$data["model"] = $this->user->save();
+
+			redirect('/users', 'refresh');
+        }
 	}
 
 	public function edit($id)
 	{
 		$this->load->helper(array('form', 'url'));
-
-  //       $this->load->library('form_validation');
 
 		$this->load->model('user');
 		$data["model"] = $this->user->find($id);
@@ -84,7 +93,6 @@ class Users extends CI_Controller {
         	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.'))
         );
         $this->form_validation->set_rules($errors_validation_range);
-        // $this->form_validation->set_rules('email', 'email', 'required');
 
         if ($this->form_validation->run() === FALSE){
 			$this->edit($id);

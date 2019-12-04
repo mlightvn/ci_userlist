@@ -8,9 +8,7 @@ class User extends CI_Model {
 	public function paginate($page_row = 20)
 	{
 		$per_page = ($this->uri->segment(3)) ? ($this->uri->segment(3)) : 1;
-// dd($per_page);
-		// $per_page = ($_GET["per_page"] ?? 1);
-		// unset($_GET["per_page"]);
+
 		$segment = ($per_page - 1) * $page_row;
         // ==================
 		foreach ($_GET as $post_name => $post_value) {
@@ -62,7 +60,6 @@ class User extends CI_Model {
 	{
 		$this->email    = $_POST['email'];
 		$this->name  	= $_POST['name'];
-		// $this->date     = time();
 
 		$this->db->insert('users', $this);
 	}
@@ -70,15 +67,13 @@ class User extends CI_Model {
 	public function update()
 	{
 		$this->email    = $_POST['email'];
-		$this->name  = $_POST['name'];
-		// $this->date     = time();
+		$this->name  	= $_POST['name'];
 
 		$this->db->update('users', $this, array('id' => $_POST['id']));
 	}
 
 	public function delete($id)
 	{
-// echo "string: " . $id . "<br>";exit;
 		$this->db->delete('users', array('id' => $id));
 	}
 
