@@ -10,8 +10,8 @@ class User extends CI_Model {
 
 		$segment = ($per_page - 1) * $page_row;
         // ==================
-		foreach ($this->fillable as $index => $post_name) {
-			$post_value = ($_REQUEST[$post_name] ?? NULL);
+		foreach ($_REQUEST as $post_name => $post_value) {
+			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->where($post_name, 'LIKE', '%' . $post_value . '%');
 			}
@@ -21,8 +21,8 @@ class User extends CI_Model {
         $total_rows = $query->num_rows();
 
         // ==================
-		foreach ($this->fillable as $index => $post_name) {
-			$post_value = ($_REQUEST[$post_name] ?? NULL);
+		foreach ($_REQUEST as $post_name => $post_value) {
+			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->where($post_name, $post_value);
 			}
