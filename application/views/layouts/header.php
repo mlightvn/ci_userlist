@@ -38,6 +38,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		      <a class="nav-link" href="<?=base_url('users/create');?>"><i class="fas fa-user-plus"></i> New user</a>
 		    </li>
 
+		    <li class="nav-item">
+		      <a class="nav-link" href="<?=base_url('users/cart/search');?>"><i class="fas fa-shopping-cart"></i> Cart</a>
+		    </li>
+
 		    <!-- Dropdown -->
 		    <li class="nav-item dropdown">
 		      <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbardrop" data-toggle="dropdown">

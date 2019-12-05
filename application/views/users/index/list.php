@@ -19,6 +19,8 @@
 						<td><?php echo $model->name; ?></td>
 						<td><?php echo $model->email; ?></td>
 						<td>
+							<a href="<?=base_url();?>users/cart/add/<?php echo $model->id; ?>" class="btn btn-sm btn-outline-success"><i class="fas fa-cart-plus"></i></a>
+
 							<a href="<?=base_url();?>users/edit/<?php echo $model->id; ?>" class="btn btn-sm btn-outline-primary"><i class="fas fa-pencil-alt"></i></a>
 							<a href="<?=base_url();?>users/delete/<?php echo $model->id; ?>" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i></a>
 						</td>

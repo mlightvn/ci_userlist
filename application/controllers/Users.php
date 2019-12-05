@@ -24,6 +24,9 @@ class Users extends CI_Controller {
 			show_error("401 unauthorized.", 401, "401 unauthorized.");
 		}
 
+		$this->load->library('cart');
+// dd($this->cart->get_item(1));
+
 		$this->load->model('user');
 		$data['model_list'] = $this->user->paginate(10);
 
@@ -225,6 +228,50 @@ class Users extends CI_Controller {
 		$this->load->model('user');
         $checkLogin = $this->user->deauthorized();
 		redirect('/users/login', 'refresh');
+	}
+
+	public function cart(string $action, string $id = null)
+	{
+
+		$this->load->library('cart');
+		$this->load->product_name_safe = false;
+		switch ($action) {
+			case 'add':
+					$this->load->model('user');
+					$model = $this->user->find($id);
+					$data['id'] = $model->id;
+					$data['email'] = $model->email;
+					$data['name'] = $model->name;
+					$data['qty'] = 1;
+					$data['price'] = 0;
+					$data['model'] = $model;
+					// $data['options'] = json_decode(json_encode($model), true);
+					// $data['model'] = json_decode(json_encode($model), true);
+					$data['rowid'] = $this->cart->insert($data);
+
+					redirect('/users', 'refresh');
+				break;
+
+			case 'remove':
+					$this->cart->remove($id);
+
+					redirect('/users/cart/search', 'refresh');
+				break;
+
+			case 'search':
+					$this->load->helper(array('form', 'url'));
+
+					$data['title'] = "Cart";
+					$data['cart'] = $this->cart;
+
+					$this->load->view('layouts/header', $data);
+					$this->load->view('users/cart/list', $data);
+					$this->load->view('layouts/footer');
+				break;
+
+			default:
+				break;
+		}
 	}
 
 }
