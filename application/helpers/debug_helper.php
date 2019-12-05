@@ -1,5 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+// Resource:
+// https://stackoverflow.com/a/47964924/6351894
+
 // require("application/third_party/debug.phar");
 
 if ( ! function_exists('d'))

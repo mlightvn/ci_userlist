@@ -30,6 +30,32 @@ class Users extends CI_Controller {
 		$data['title'] = "ユーザシステム";
 
 		$this->load->library('pagination');
+		$this->load->helper(array('form', 'captcha'));
+		$vals = array(
+		        // 'word'          => 'Random word',
+		        'img_path'      => './captcha/',
+		        'img_url'       => base_url('captcha'),
+		        // 'font_path'     => './path/to/fonts/texb.ttf',
+		        'img_width'     => '150',
+		        'img_height'    => 30,
+		        'expiration'    => 300, // seconds
+		        'word_length'   => 6,
+		        'font_size'     => 16,
+		        'img_id'        => 'Imageid',
+		        'pool'          => '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+
+		        // White background and border, black text and green grid
+		        'colors'        => array(
+		                'background' => array(255, 255, 255),
+		                'border' => array(255, 255, 255),
+		                'text' => array(0, 0, 0),
+		                'grid' => array(40, 255, 40)
+		        )
+		);
+
+		$captcha = create_captcha($vals);
+		// dd($captcha);
+		$data['captcha'] = $captcha;
 
 		$data['model_list']['paginate']['base_url'] = base_url('users/page');
 

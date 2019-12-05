@@ -6,15 +6,52 @@
 			<table class="table table-hover">
 				<tr>
 					<th>ID</th>
-					<td><input type="number" name="id" value="<?= $_GET['id'] ?? ''; ?>" class="form-control"></td>
+					<td>
+						<?php
+						$data = array(
+							'type'  => 'number',
+							'name'  => 'id',
+							'id'    => 'id',
+							'value' => ($_GET['id'] ?? ''),
+							'class' => 'form-control'
+						);
+						echo form_input($data);
+						?>
+					</td>
 				</tr>
 				<tr>
 					<th>ユーザ名</th>
-					<td><input type="text" name="name" value="<?= $_GET['name'] ?? ''; ?>" class="form-control"></td>
+					<td>
+						<?php
+						$data = array(
+							'type'  => 'text',
+							'name'  => 'name',
+							'id'    => 'name',
+							'value' => ($_GET['name'] ?? ''),
+							'class' => 'form-control'
+						);
+						echo form_input($data);
+						?>
+					</td>
 				</tr>
 				<tr>
 					<th>email</th>
-					<td><input type="text" name="email" value="<?= $_GET['email'] ?? ''; ?>" class="form-control"></td>
+					<td>
+						<?php
+						$data = array(
+							'type'  => 'text',
+							'name'  => 'email',
+							'id'    => 'email',
+							'value' => ($_GET['email'] ?? ''),
+							'class' => 'form-control'
+						);
+						echo form_input($data);
+						?>
+					</td>
+				</tr>
+				<tr>
+					<th>Captcha</th>
+					<td><?php echo $captcha['image']; ?></td>
 				</tr>
 
 			</table>
