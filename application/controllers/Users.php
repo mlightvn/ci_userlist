@@ -100,9 +100,14 @@ class Users extends CI_Controller {
         }else{
 			$this->load->model('user');
 
-			$data["model"] = $this->user->save();
+			$email_exist = $this->user->email_exist();
+			if($email_exist){
+				show_error("email ('" . $_REQUEST['email'] . "') is existing in DB.", 501, "Custom error.");
+			}else{
+				$data["model"] = $this->user->save();
 
-			redirect('/users', 'refresh');
+				redirect('/users', 'refresh');
+			}
         }
 	}
 
@@ -145,8 +150,14 @@ class Users extends CI_Controller {
 			$this->edit($id);
         }else{
 			$this->load->model('user');
-			$data["model"] = $this->user->update();
-			redirect('/users', 'refresh');
+
+			$email_exist = $this->user->email_exist();
+			if($email_exist){
+				show_error("email ('" . $_REQUEST['email'] . "') is existing in DB.", 501, "Custom error.");
+			}else{
+				$data["model"] = $this->user->update();
+				redirect('/users', 'refresh');
+			}
         }
 	}
 

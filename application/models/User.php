@@ -11,7 +11,6 @@ class User extends CI_Model {
 		$segment = ($per_page - 1) * $page_row;
         // ==================
 		foreach ($_REQUEST as $post_name => $post_value) {
-			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->like($post_name, $post_value);
 			}
@@ -22,7 +21,6 @@ class User extends CI_Model {
 
         // ==================
 		foreach ($_REQUEST as $post_name => $post_value) {
-			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->like($post_name, $post_value);
 			}
@@ -131,9 +129,20 @@ class User extends CI_Model {
         return (!!$user);
     }
 
-	public function email_exist($email){
+	public function email_exist($email = NULL){
+		if($email === NULL){
+			$email = $_REQUEST['email'];
+		}
+
+		$id = ($_REQUEST['id'] ?? NULL);
+
 		$this->db->from('users');
-		$this->db->where('email',$email);
+		if($id === NULL){ // Create new
+			$this->db->where('email',$email);
+		}else{ // Update
+			// $this->db->where('id',$id);
+
+		}
 		$query=$this->db->get();
 
 		if($query->num_rows()>0){
