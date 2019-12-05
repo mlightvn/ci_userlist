@@ -66,6 +66,11 @@ $autoload['packages'] = array();
 $autoload['libraries'] = array('database', );
 
 /*
+	@author: Nguyen Ngoc Nam
+*/
+$autoload['widgets'] = array();
+
+/*
 | -------------------------------------------------------------------
 |  Auto-load Drivers
 | -------------------------------------------------------------------
