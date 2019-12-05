@@ -3,27 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+	// public function __construct()
+	// {
+	// 	parent::__construct();
+
+ //        $user = $this->session->userdata('user');
+ //        if(!$user){
+	// 		show_error("401 unauthorized.");
+	// 	}
+	// }
+
 	public function index()
 	{
 		$this->page(1);
 	}
 	public function page($page = 1)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
+
 		$this->load->model('user');
 		$data['model_list'] = $this->user->paginate(10);
 
@@ -68,6 +68,11 @@ class Users extends CI_Controller {
 
 	public function create()
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
+
 		$this->load->helper(array('form', 'url'));
 
 		$data['title'] = "ユーザシステム";
@@ -78,6 +83,11 @@ class Users extends CI_Controller {
 
 	public function store()
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
+
         $this->load->library('form_validation');
         $errors_validation_range = array(
         	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
@@ -98,6 +108,11 @@ class Users extends CI_Controller {
 
 	public function edit($id)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
+
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->model('user');
@@ -111,6 +126,11 @@ class Users extends CI_Controller {
 
 	public function update($id)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
+
 		$this->load->helper(array('form', 'url'));
 
         $this->load->library('form_validation');
@@ -132,6 +152,11 @@ class Users extends CI_Controller {
 
 	public function delete($id)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
+
 		$this->load->helper(array('url'));
 
 		$this->load->model('user');
@@ -141,7 +166,10 @@ class Users extends CI_Controller {
 
 	public function show($id)
 	{
-		// $this->load->helper(array('url'));
+        $user = $this->session->userdata('user');
+        if(!$user){
+			show_error("401 unauthorized.", 401, "401 unauthorized.");
+		}
 
 		$this->load->model('user');
 		$data["model"] = $this->user->find($id);
@@ -150,6 +178,42 @@ class Users extends CI_Controller {
 		$this->load->view('layouts/header', $data);
 		$this->load->view('users/show', $data);
 		$this->load->view('layouts/footer');
+	}
+
+	public function login()
+	{
+		$this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+
+		$data['title'] = "Login";
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email'); 
+            $this->form_validation->set_rules('password', 'Password', 'required');
+
+            if($this->form_validation->run() == true){
+				$this->load->model('user');
+                $checkLogin = $this->user->authorized();
+                if($checkLogin){
+					redirect('/users', 'refresh');
+                }else{
+                    $data['error_msg'] = 'Wrong email or password, please try again.';
+                }
+            // }else{ 
+            //     $data['error_msg'] = 'Please fill all the mandatory fields.';
+            }
+		}
+
+		$this->load->view('layouts/header', $data);
+		$this->load->view('users/login', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function logout()
+	{
+		$this->load->model('user');
+        $checkLogin = $this->user->deauthorized();
+		redirect('/users/login', 'refresh');
 	}
 
 }

@@ -67,7 +67,7 @@ class User extends CI_Model {
 				if($post_name === 'password'){
 					$post_value = getHashedPassword($post_value);
 				}
-				$this->$post_name  	= $post_value;
+				$this->$post_name = $post_value;
 			}
 		}
 
@@ -95,5 +95,54 @@ class User extends CI_Model {
 	{
 		$this->db->delete('users', array('id' => $id));
 	}
+
+	public function authorized(){
+		$this->load->helper('password');
+
+		$this->db->from('users');
+		$this->db->where('email', $_REQUEST['email']);
+		$this->db->where('password', getHashedPassword($_REQUEST['password']));
+
+		if($query = $this->db->get())
+		{
+			$user = $query->row();
+
+			if($user){
+				$this->session->set_userdata('user', $user); 
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+
+	}
+     
+    public function deauthorized(){
+        $this->session->unset_userdata('user');
+        $this->session->sess_destroy();
+    }
+     
+    public function isAuth(){
+        $user = $this->session->userdata('user');
+        return (!!$user);
+    }
+
+	public function email_exist($email){
+		$this->db->from('users');
+		$this->db->where('email',$email);
+		$query=$this->db->get();
+
+		if($query->num_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
 
 }

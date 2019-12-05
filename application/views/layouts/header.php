@@ -21,11 +21,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container">
 	<header>
-		<h1><?php echo $title; ?></h1>
+		<?php $user = $this->session->userdata('user'); ?>
 
-		<div class="header">
-			<a href="<?=base_url();?>" class="btn btn-outline-primary"><i class="fas fa-home"></i></a>
-			<a href="<?=base_url();?>users" class="btn btn-outline-primary"><i class="fas fa-list"></i></a>
-			<a href="<?=base_url();?>users/create" class="btn btn-outline-primary"><i class="fas fa-plus"></i></a>
-		</div>
+		<nav class="navbar navbar-expand-sm bg-light">
+		  <!-- Brand -->
+		  <a class="navbar-brand" href="<?=base_url();?>">CIU</a>
+
+		  <!-- Links -->
+		  <ul class="navbar-nav">
+			<?php if($user) { ?>
+
+		    <li class="nav-item">
+		      <a class="nav-link" href="<?=base_url('users');?>"><i class="fas fa-list"></i> User list</a>
+		    </li>
+		    <li class="nav-item">
+		      <a class="nav-link" href="<?=base_url('users/create');?>"><i class="fas fa-plus"></i> New user</a>
+		    </li>
+
+		    <!-- Dropdown -->
+		    <li class="nav-item dropdown">
+		      <a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbardrop" data-toggle="dropdown">
+			        <?=$user->name?>
+		      </a>
+		      <div class="dropdown-menu">
+		        <a class="dropdown-item" href="<?=base_url('users/logout')?>"><i class="fas fa-sign-out-alt"></i> Logout</a>
+		      </div>
+		    </li>
+
+			<?php }else{ ?>
+		    <li class="nav-item">
+		      <a class="nav-link" href="<?=base_url('users/login');?>"><i class="fas fa-sign-in-alt"></i> Login</a>
+		    </li>
+			<?php } ?>
+
+		  </ul>
+		</nav>
+
 	</header>

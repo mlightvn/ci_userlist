@@ -1,5 +1,5 @@
 <div class="filter">
-	<form action="<?=base_url('users')?>" method="GET">
+	<?= form_open(base_url('/users'), ["method"=>"GET"])?>
 	<div class="card">
 		<div class="card-header">検索条件</div>
 		<div class="card-body">
