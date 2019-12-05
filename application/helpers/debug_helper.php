@@ -9,9 +9,9 @@ if ( ! function_exists('d'))
 {
 	function d($data){
 	    if(is_null($data)){
-	        $str = "<i>NULL</i>";
+	        $str = "<font color='red'><i>NULL</i></font>";
 	    }elseif($data === ""){
-	        $str = "<i>Empty</i>";
+	        $str = "<font color='red'><i>Empty</i></font>";
 	    }elseif($data === true){
 	        $str = "<font color='red'><i>True</i></font>";
 	    }elseif($data === false){
@@ -20,7 +20,7 @@ if ( ! function_exists('d'))
 	        $str = "<font color='red'><i>" . $data . "</i></font>";
 	    }elseif(is_array($data)){
 	        if(count($data) === 0){
-	            $str = "<i>Empty array.</i>";
+	            $str = "<font color='red'><i>Empty Array</i></font>";
 	        }else{
 	            $str = "<table style=\"border-bottom:0px solid #000;\" cellpadding=\"0\" cellspacing=\"0\">";
 	            foreach ($data as $key => $value) {
