@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		      <a class="nav-link" href="<?=base_url('users');?>"><i class="fas fa-list"></i> User list</a>
 		    </li>
 		    <li class="nav-item">
-		      <a class="nav-link" href="<?=base_url('users/create');?>"><i class="fas fa-plus"></i> New user</a>
+		      <a class="nav-link" href="<?=base_url('users/create');?>"><i class="fas fa-user-plus"></i> New user</a>
 		    </li>
 
 		    <!-- Dropdown -->
@@ -52,6 +52,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    <li class="nav-item">
 		      <a class="nav-link" href="<?=base_url('users/login');?>"><i class="fas fa-sign-in-alt"></i> Login</a>
 		    </li>
+<!-- 
+		    <li class="nav-item">
+		      <a class="nav-link" href="<?=base_url('users/create');?>"><i class="fas fa-user-plus"></i> Register</a>
+		    </li>
+ -->
 			<?php } ?>
 
 		  </ul>
