@@ -32,6 +32,7 @@ class Users extends CI_Controller {
 		$data['title'] = "ユーザシステム";
 
 		$this->load->library('pagination');
+		$this->load->library('calendar');
 		$this->load->helper(array('form', 'captcha', 'password'));
 		$captcha_words = generatePassword(8);
 		$vals = array(
@@ -57,7 +58,6 @@ class Users extends CI_Controller {
 		);
 
 		$captcha = create_captcha($vals);
-		// dd($captcha);
 		$data['captcha'] = $captcha;
 
 		$data['model_list']['paginate']['base_url'] = base_url('users/page');

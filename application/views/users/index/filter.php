@@ -53,6 +53,21 @@
 					<th>Captcha</th>
 					<td><?php echo $captcha['image']; ?> : <?php echo $captcha['word']; ?></td>
 				</tr>
+				<tr>
+					<th>Calendar</th>
+					<td>
+						<?php
+						$data = array(
+							'type'  => 'text',
+							'name'  => 'datepicker',
+							'readonly'    => true,
+							'value' => ($_GET['datepicker'] ?? ''),
+							'class' => 'form-control datepicker'
+						);
+						echo form_input($data);
+						?>
+					</td>
+				</tr>
 
 			</table>
 		
@@ -64,3 +79,14 @@
 	</div>
 	</form>
 </div>
+
+<script>
+$( function() {
+	$( ".datepicker" ).datepicker({
+		showOtherMonths: true,
+		selectOtherMonths: true,
+		showButtonPanel: true,
+		dateFormat: "yy/mm/dd"
+	});
+});
+</script>
