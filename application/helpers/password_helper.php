@@ -24,3 +24,29 @@ if(!function_exists('getHashedPassword'))
 //         return password_verify($plainPassword, $hashedPassword) ? true : false;
 //     }
 // }
+
+if(!function_exists('generatePassword'))
+{
+	function generatePassword($length = 10, $has_special_char = false) {
+		$options = ['number', 'letter'];
+		if($has_special_char){
+			$options[] = 'special_char';
+		}
+		$characters_set = [
+			'number' 		=> '0123456789',
+			'letter' 		=> 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			'special_char' 	=> '`~!@#$%^&*()-_=+[]{}|\\;:\'",.<>/?',
+		];
+
+	    $characters = '';
+	    foreach ($options as $key => $option) {
+	    	$characters .= $characters_set[$option];
+	    }
+	    $charactersLength = strlen($characters);
+	    $randomString = '';
+	    for ($i = 0; $i < $length; $i++) {
+	        $randomString .= $characters[rand(0, $charactersLength - 1)];
+	    }
+	    return $randomString;
+	}
+}

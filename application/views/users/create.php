@@ -8,7 +8,7 @@
 		<table class="table table-hover">
 			<tbody>
 				<tr>
-					<th>ユーザ名</th>
+					<th width="200px">ユーザ名</th>
 					<td><input type="text" name="name" class="form-control" value="<?php echo ($_REQUEST['name'] ?? ''); ?>"></td>
 				</tr>
 				<tr>

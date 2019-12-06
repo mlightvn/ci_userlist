@@ -51,7 +51,7 @@
 				</tr>
 				<tr>
 					<th>Captcha</th>
-					<td><?php echo $captcha['image']; ?></td>
+					<td><?php echo $captcha['image']; ?> : <?php echo $captcha['word']; ?></td>
 				</tr>
 
 			</table>
