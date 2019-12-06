@@ -29,7 +29,10 @@ class User extends CI_Model {
 	    $this->db->limit($page_row, $segment);
 		$query = $this->db->get();
 
-		$paginate = array();
+		$this->load->config('pagination');
+
+		// $paginate = array();
+		$paginate = $this->config->item('pagination_config');
         $paginate['total_rows'] = $total_rows;
 
 		$paginate['uri_segment'] = 3;

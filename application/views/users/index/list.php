@@ -33,7 +33,7 @@
 			</table>
 		</div>
 		<div class="card-footer">
-			<div class="pagination">
+			<div class="">
 				<?php echo $this->pagination->create_links(); ?>
 			</div>
 		</div>
