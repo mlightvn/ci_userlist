@@ -41,3 +41,7 @@ header{
 .pagination a{
 	margin-right: 5px;
 }
+
+.debug_table{
+	border-collapse: collapse;
+}

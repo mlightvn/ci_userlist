@@ -25,7 +25,6 @@ class Users extends CI_Controller {
 		}
 
 		$this->load->library('cart');
-// dd($this->cart->get_item(1));
 
 		$this->load->model('user');
 		$data['model_list'] = $this->user->paginate(10);
@@ -62,7 +61,7 @@ class Users extends CI_Controller {
 		$data['captcha'] = $captcha;
 
 		$data['model_list']['paginate']['base_url'] = base_url('users/page');
-
+dd($data['model_list']);
 		$this->pagination->initialize($data['model_list']['paginate']);
 
 		$this->load->view('layouts/header', $data);
