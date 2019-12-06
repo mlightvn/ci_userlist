@@ -32,7 +32,6 @@ class Users extends CI_Controller {
 		$data['title'] = "ユーザシステム";
 
 		$this->load->library('pagination');
-		// $this->load->config('pagination');
 		$this->load->library('calendar');
 		$this->load->helper(array('form', 'captcha', 'password'));
 

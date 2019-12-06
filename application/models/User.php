@@ -37,7 +37,7 @@ class User extends CI_Model {
 
 		$paginate['uri_segment'] = 3;
 		$paginate['per_page'] = $page_row;
-		// $paginate['num_links'] = 20;
+		$paginate['num_links'] = 20;
 		$paginate['use_page_numbers'] = TRUE;
 		// $paginate['page_query_string'] = TRUE;
 
