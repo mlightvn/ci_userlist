@@ -5,7 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $config['pagination_config'] = array(
 	'reuse_query_string' => TRUE,
-    // 'per_page' => '1',
+
+	'uri_segment' => 3,
+	'per_page' => 10,
+	'num_links' => 10,
+	'use_page_numbers' => TRUE,
+	// 'page_query_string' => TRUE,
+
     'full_tag_open' => '<ul class="pagination">',
     'full_tag_close' => '</ul>',
     'num_tag_open' => '<li class="page-item"><span class="page-link">',

@@ -35,12 +35,6 @@ class User extends CI_Model {
 		$paginate = $this->config->item('pagination_config');
         $paginate['total_rows'] = $total_rows;
 
-		$paginate['uri_segment'] = 3;
-		$paginate['per_page'] = $page_row;
-		$paginate['num_links'] = 20;
-		$paginate['use_page_numbers'] = TRUE;
-		// $paginate['page_query_string'] = TRUE;
-
 		$result = array('paginate' => $paginate, 'data' => $query->result());
 
 		return $result;
