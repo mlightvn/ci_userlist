@@ -73,7 +73,7 @@
 		
 		</div>
 		<div class="card-footer text-right">
-			<a href="<?php base_url(); ?>users" class="btn btn-sm btn-secondary">リセット</a>
+			<a href="<?php echo base_url('users'); ?>" class="btn btn-sm btn-secondary">リセット</a>
 			<button type="submit" class="btn btn-sm btn-primary">検索</button>
 		</div>
 	</div>
