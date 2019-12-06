@@ -8,6 +8,7 @@
 						<th>#</th>
 						<th>id</th>
 						<th>ユーザ名</th>
+						<th>数量</th>
 						<th>email</th>
 						<th></th>
 					</tr>
@@ -20,6 +21,7 @@
 						<td><?php echo $model['rowid']; ?></td>
 						<td><?php echo $model['id']; ?></td>
 						<td><?php echo $model['name']; ?></td>
+						<td><?php echo $model['qty']; ?></td>
 						<td><?php echo $model['email']; ?></td>
 						<td>
 							<a href="<?=base_url();?>users/cart/remove/<?php echo $model['rowid']; ?>" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i></a>

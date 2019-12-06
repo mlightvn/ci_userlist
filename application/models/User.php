@@ -86,6 +86,7 @@ class User extends CI_Model {
 			}
 		}
 
+		$this->db->from('users');
 		$this->db->update('users', $this, array('id' => $_POST['id']));
 	}
 
@@ -129,27 +130,43 @@ class User extends CI_Model {
         return (!!$user);
     }
 
-	public function email_exist($email = NULL){
+    public function unique(string $id = NULL, string $columnName = NULL, string $value=NULL)
+    {
+    	return (!$this->exists($id, $columnName, $value));
+    }
+
+    public function exists(string $id = NULL, string $columnName = NULL, string $value=NULL)
+    {
+    	if($columnName && $value){
+
+			$this->db->from('users');
+			if($id === NULL){ // Create new
+				$this->db->where($columnName, $value);
+			}else{ // Update
+				$this->db->where('id <>', $id);
+				$this->db->where($columnName, $value);
+
+			}
+			$query=$this->db->get();
+
+			if($query->num_rows()>0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+    	return false;
+    }
+
+	public function email_exists($email = NULL){
 		if($email === NULL){
 			$email = $_REQUEST['email'];
 		}
 
 		$id = ($_REQUEST['id'] ?? NULL);
 
-		$this->db->from('users');
-		if($id === NULL){ // Create new
-			$this->db->where('email',$email);
-		}else{ // Update
-			// $this->db->where('id',$id);
-
-		}
-		$query=$this->db->get();
-
-		if($query->num_rows()>0){
-			return true;
-		}else{
-			return false;
-		}
+		return $this->exists($id, 'email', $email);
 
 	}
 

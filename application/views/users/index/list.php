@@ -8,6 +8,7 @@
 						<th>#</th>
 						<th>ユーザ名</th>
 						<th>email</th>
+						<th class="text-center">パスワード</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -18,6 +19,7 @@
 						<td><a href="<?=base_url();?>users/show/<?php echo $model->id; ?>"><i class="fas fa-info-circle"></i> <?php echo str_pad($model->id, 5, '0', STR_PAD_LEFT); ?></a></td>
 						<td><?php echo $model->name; ?></td>
 						<td><?php echo $model->email; ?></td>
+						<td align="center"><?php echo ($model->password ? '●' : ''); ?></td>
 						<td>
 							<a href="<?=base_url();?>users/cart/add/<?php echo $model->id; ?>" class="btn btn-sm btn-outline-success"><i class="fas fa-cart-plus"></i></a>
 

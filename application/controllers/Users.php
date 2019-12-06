@@ -94,7 +94,7 @@ class Users extends CI_Controller {
         $this->load->library('form_validation');
         $errors_validation_range = array(
         	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.'))
+        	array('field'=>'email', 'label'=>'email', 'rules'=>'required|is_unique[users.email]', "errors"=>array('required' => 'You must input into %s.'))
         );
         $this->form_validation->set_rules($errors_validation_range);
 
@@ -124,7 +124,9 @@ class Users extends CI_Controller {
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->model('user');
-		$data["model"] = $this->user->find($id);
+		$model = $this->user->find($id);
+		$model->password = null;
+		$data["model"] = $model;
 		$data['title'] = "ユーザシステム";
 
 		$this->load->view('layouts/header', $data);
@@ -144,8 +146,26 @@ class Users extends CI_Controller {
         $this->load->library('form_validation');
         $errors_validation_range = array(
         	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'password', 'label'=>'Password', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
+        	array('field'=>'email', 'label'=>'email',
+        		'rules'=>array(
+        			'required',
+        			array('unique_email', function($email='') use ($id)
+				        {
+							$this->load->model('user');
+							$user = $this->user->find($id);
+
+							$email_exist = $this->user->exists($id, 'email', $email);
+
+							return (!$email_exist);
+				        }
+				    ),
+        		), 
+        		"errors"=>array(
+        			'required' => 'You must input into %s.',
+        			'unique_email' => 'email must be unique. email is existing in database.'
+        		),
+        	),
+        	// array('field'=>'password', 'label'=>'Password', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
         );
         $this->form_validation->set_rules($errors_validation_range);
 
@@ -154,13 +174,8 @@ class Users extends CI_Controller {
         }else{
 			$this->load->model('user');
 
-			$email_exist = $this->user->email_exist();
-			if($email_exist){
-				show_error("email ('" . $_REQUEST['email'] . "') is existing in DB.", 501, "Custom error.");
-			}else{
-				$data["model"] = $this->user->update();
-				redirect('/users', 'refresh');
-			}
+			$data["model"] = $this->user->update();
+			redirect('/users', 'refresh');
         }
 	}
 
