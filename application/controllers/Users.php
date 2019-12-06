@@ -61,7 +61,7 @@ class Users extends CI_Controller {
 		$data['captcha'] = $captcha;
 
 		$data['model_list']['paginate']['base_url'] = base_url('users/page');
-dd($data['model_list']);
+
 		$this->pagination->initialize($data['model_list']['paginate']);
 
 		$this->load->view('layouts/header', $data);
