@@ -7,6 +7,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title><?php echo ($title ? ($title . " | ") : ""); ?>ユーザシステム</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" 
+      type="image/ico" 
+      href="<?=base_url('assets/favicon.ico');?>">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
