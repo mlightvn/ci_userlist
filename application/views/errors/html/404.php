@@ -1,13 +1,8 @@
-<?php
-$title = 'Error page';
-include(APPPATH.'views/layouts/header.php');
-?>
-
 <div class="body">
 	<div class="card">
-		<div class="card-header"><?php echo ($heading ?? 'Error page'); ?></div>
+		<div class="card-header">Error page</div>
 		<div class="card-body">
-			<?php echo $message; ?>
+			404 Page not found!
 		</div>
 		<div class="card-footer text-center">
 			<a href="javascript:history.back(1);" class="btn btn-secondary">Back to previous page</a>
@@ -15,5 +10,3 @@ include(APPPATH.'views/layouts/header.php');
 		</div>
 	</div>
 </div>
-
-<?php include(APPPATH.'views/layouts/footer.php'); ?>

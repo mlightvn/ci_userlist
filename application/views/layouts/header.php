@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo ($title ? ($title . " | ") : ""); ?>ユーザシステム</title>
+	<title><?php echo ((isset($title) && !empty($title)) ? ($title . " | ") : ""); ?>ユーザシステム</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" 
@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="container">
 	<header>
-		<?php $user = $this->session->userdata('user'); ?>
+		<?php $user = (isset($this->session) && ($this->session->userdata('user'))) ? $this->session->userdata('user') : NULL; ?>
 
 		<nav class="navbar navbar-expand-sm bg-light">
 		  <!-- Brand -->

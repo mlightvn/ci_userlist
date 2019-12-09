@@ -15,13 +15,14 @@ class Users extends CI_Controller {
 
 	public function index()
 	{
+
 		$this->page(1);
 	}
 	public function page($page = 1)
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
 		$this->load->library('cart');
@@ -74,7 +75,7 @@ class Users extends CI_Controller {
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
 		$this->load->helper(array('form', 'url'));
@@ -89,7 +90,7 @@ class Users extends CI_Controller {
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
         $this->load->library('form_validation');
@@ -119,7 +120,7 @@ class Users extends CI_Controller {
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
 		$this->load->helper(array('form', 'url'));
@@ -139,7 +140,7 @@ class Users extends CI_Controller {
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
 		$this->load->helper(array('form', 'url'));
@@ -184,7 +185,7 @@ class Users extends CI_Controller {
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
 		$this->load->helper(array('url'));
@@ -198,7 +199,7 @@ class Users extends CI_Controller {
 	{
         $user = $this->session->userdata('user');
         if(!$user){
-			show_error("401 unauthorized.", 401, "401 unauthorized.");
+			abort(401);
 		}
 
 		$this->load->model('user');
