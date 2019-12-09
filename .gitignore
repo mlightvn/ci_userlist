@@ -36,3 +36,4 @@ user_guide/overview/*
 /tests/results/
 
 ._*.*
+._.gitignore
