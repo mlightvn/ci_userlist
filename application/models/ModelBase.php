@@ -48,7 +48,6 @@ class ModelBase extends CI_Model {
 		$this->getSearchResult($_REQUEST);
 		$query = $this->db->get();
         $total_rows = $query->num_rows();
-
         // ==================
 		$this->getSearchResult($_REQUEST);
 	    $this->db->limit($page_row, $segment);
@@ -181,4 +180,9 @@ class ModelBase extends CI_Model {
     	return $this->db->get_compiled_select();
     }
 
+    public function toJson()
+    {
+    	header("Content-type: application/json; charset=utf-8");
+    	return json_encode($this);
+    }
 }

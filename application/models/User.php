@@ -7,15 +7,15 @@ class User extends ModelBase {
 
 	public function search($request = [])
 	{
-		if(isset($request['id'])){
+		if(isset($request['id']) && ($request['id'])){
 			$this->db->where('id', $request['id']);
 		}
 
-		if(isset($request['email'])){
+		if(isset($request['email']) && ($request['email'])){
 			$this->db->like('email', $request['email']);
 		}
 
-		if(isset($request['name'])){
+		if(isset($request['name']) && ($request['name'])){
 			$this->db->like('name', $request['name']);
 		}
 
