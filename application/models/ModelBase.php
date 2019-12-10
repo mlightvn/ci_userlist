@@ -63,27 +63,21 @@ class ModelBase extends CI_Model {
 		return $result;
 	}
 
-	public function find(...$id)
+	public function find(...$ids)
 	{
 		$this->db->select('*');
 	    $this->db->from($this->getTableName());
-	    if(is_numeric($id) || is_string($id)){
-		    $this->db->where('id', $id);
-	    }elseif(is_array($id)){
-	    	if(count($id) === 1){
-			    $this->db->where('id', reset($id));
+	    if(is_array($ids)){
+	    	if(count($ids) === 1){
+			    $this->db->where('id', reset($ids));
 	    	}else{
-			    $this->db->where_in('id', $id);
+			    $this->db->where_in('id', $ids);
 	    	}
 	    }
 	    $query = $this->db->get(); 
 
-	    if(is_numeric($id) || is_string($id)){
-		    if($query->num_rows() > 0){
-		        return $query->row();
-		    }
-	    }elseif(is_array($id)){
-	    	if(count($id) === 1){
+	    if(is_array($ids)){
+	    	if(count($ids) === 1){
 		        return $query->row();
 	    	}else{
 		        return $query->result();
