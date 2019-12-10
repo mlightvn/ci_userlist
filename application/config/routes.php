@@ -62,6 +62,6 @@ $route['default_controller'] = 'welcome';
 // $route['users/delete/:id'] = 'users/delete';
 // $route['users/:id'] = 'users/show';
 
-$route['404_override'] = '';
+$route['404_override'] = 'errors/error_404';
 $route['translate_uri_dashes'] = FALSE;
 

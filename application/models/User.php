@@ -11,7 +11,6 @@ class User extends CI_Model {
 		$segment = ($per_page - 1) * $page_row;
         // ==================
 		foreach ($_REQUEST as $post_name => $post_value) {
-			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->like($post_name, $post_value);
 			}
@@ -22,7 +21,6 @@ class User extends CI_Model {
 
         // ==================
 		foreach ($_REQUEST as $post_name => $post_value) {
-			// $post_value = ($_REQUEST[$post_name] ?? NULL);
 			if($post_value){
 				$this->db->like($post_name, $post_value);
 			}
@@ -31,14 +29,11 @@ class User extends CI_Model {
 	    $this->db->limit($page_row, $segment);
 		$query = $this->db->get();
 
-		$paginate = array();
-        $paginate['total_rows'] = $total_rows;
+		$this->load->config('pagination');
 
-		$paginate['uri_segment'] = 3;
-		$paginate['per_page'] = $page_row;
-		// $paginate['num_links'] = 20;
-		$paginate['use_page_numbers'] = TRUE;
-		// $paginate['page_query_string'] = TRUE;
+		// $paginate = array();
+		$paginate = $this->config->item('pagination_config');
+        $paginate['total_rows'] = $total_rows;
 
 		$result = array('paginate' => $paginate, 'data' => $query->result());
 
@@ -67,7 +62,7 @@ class User extends CI_Model {
 				if($post_name === 'password'){
 					$post_value = getHashedPassword($post_value);
 				}
-				$this->$post_name  	= $post_value;
+				$this->$post_name = $post_value;
 			}
 		}
 
@@ -88,6 +83,7 @@ class User extends CI_Model {
 			}
 		}
 
+		$this->db->from('users');
 		$this->db->update('users', $this, array('id' => $_POST['id']));
 	}
 
@@ -95,5 +91,81 @@ class User extends CI_Model {
 	{
 		$this->db->delete('users', array('id' => $id));
 	}
+
+	public function authorized(){
+		$this->load->helper('password');
+
+		$this->db->from('users');
+		$this->db->where('email', $_REQUEST['email']);
+		$this->db->where('password', getHashedPassword($_REQUEST['password']));
+
+		if($query = $this->db->get())
+		{
+			$user = $query->row();
+
+			if($user){
+				$this->session->set_userdata('user', $user); 
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+
+	}
+     
+    public function deauthorized(){
+        $this->session->unset_userdata('user');
+        $this->session->sess_destroy();
+    }
+     
+    public function isAuth(){
+        $user = $this->session->userdata('user');
+        return (!!$user);
+    }
+
+    public function unique(string $id = NULL, string $columnName = NULL, string $value=NULL)
+    {
+    	return (!$this->exists($id, $columnName, $value));
+    }
+
+    public function exists(string $id = NULL, string $columnName = NULL, string $value=NULL)
+    {
+    	if($columnName && $value){
+
+			$this->db->from('users');
+			if($id === NULL){ // Create new
+				$this->db->where($columnName, $value);
+			}else{ // Update
+				$this->db->where('id <>', $id);
+				$this->db->where($columnName, $value);
+
+			}
+			$query=$this->db->get();
+
+			if($query->num_rows()>0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+
+    	return false;
+    }
+
+	public function email_exists($email = NULL){
+		if($email === NULL){
+			$email = $_REQUEST['email'];
+		}
+
+		$id = ($_REQUEST['id'] ?? NULL);
+
+		return $this->exists($id, 'email', $email);
+
+	}
+
 
 }

@@ -54,21 +54,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 
-define('PRODUCTION_DOMAIN', 'ci3.rakupons.net');
-
-$domain = strtolower($_SERVER['HTTP_HOST']);
-
-switch($domain) {
-	case PRODUCTION_DOMAIN:
-		define('ENVIRONMENT', 'production');
-	break;
-
-	default:
-		define('ENVIRONMENT', 'development');
-	break;
-}
-
-	// define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+require('application/config/environments.php');
 
 /*
  *---------------------------------------------------------------

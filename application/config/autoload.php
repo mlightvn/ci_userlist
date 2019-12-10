@@ -63,7 +63,7 @@ $autoload['packages'] = array();
 */
 // $autoload['libraries'] = array();
 
-$autoload['libraries'] = array('database', );
+$autoload['libraries'] = array('database', 'session', );
 
 /*
 	@author: Nguyen Ngoc Nam
@@ -99,7 +99,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array("url", "html", "debug");
+$autoload['helper'] = array("url", "html", "debug", "errors");
 
 /*
 | -------------------------------------------------------------------

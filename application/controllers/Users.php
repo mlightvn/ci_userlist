@@ -3,36 +3,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Users extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+	// public function __construct()
+	// {
+	// 	parent::__construct();
+
+ //        $user = $this->session->userdata('user');
+ //        if(!$user){
+	// 		show_error("401 unauthorized.");
+	// 	}
+	// }
+
 	public function index()
 	{
+
 		$this->page(1);
 	}
 	public function page($page = 1)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
+
+		$this->load->library('cart');
+
 		$this->load->model('user');
 		$data['model_list'] = $this->user->paginate(10);
 
 		$data['title'] = "ユーザシステム";
 
 		$this->load->library('pagination');
-		$this->load->helper(array('form', 'captcha'));
+		$this->load->library('calendar');
+		$this->load->helper(array('form', 'captcha', 'password'));
+
+		$captcha_words = generatePassword(8);
 		$vals = array(
-		        // 'word'          => 'Random word',
+		        'word'          => $captcha_words,
 		        'img_path'      => './captcha/',
 		        'img_url'       => base_url('captcha'),
 		        // 'font_path'     => './path/to/fonts/texb.ttf',
@@ -54,7 +60,6 @@ class Users extends CI_Controller {
 		);
 
 		$captcha = create_captcha($vals);
-		// dd($captcha);
 		$data['captcha'] = $captcha;
 
 		$data['model_list']['paginate']['base_url'] = base_url('users/page');
@@ -68,6 +73,11 @@ class Users extends CI_Controller {
 
 	public function create()
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
+
 		$this->load->helper(array('form', 'url'));
 
 		$data['title'] = "ユーザシステム";
@@ -78,10 +88,15 @@ class Users extends CI_Controller {
 
 	public function store()
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
+
         $this->load->library('form_validation');
         $errors_validation_range = array(
         	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.'))
+        	array('field'=>'email', 'label'=>'email', 'rules'=>'required|is_unique[users.email]', "errors"=>array('required' => 'You must input into %s.'))
         );
         $this->form_validation->set_rules($errors_validation_range);
 
@@ -90,18 +105,30 @@ class Users extends CI_Controller {
         }else{
 			$this->load->model('user');
 
-			$data["model"] = $this->user->save();
+			$email_exist = $this->user->email_exist();
+			if($email_exist){
+				show_error("email ('" . $_REQUEST['email'] . "') is existing in DB.", 501, "Custom error.");
+			}else{
+				$data["model"] = $this->user->save();
 
-			redirect('/users', 'refresh');
+				redirect('/users', 'refresh');
+			}
         }
 	}
 
 	public function edit($id)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
+
 		$this->load->helper(array('form', 'url'));
 
 		$this->load->model('user');
-		$data["model"] = $this->user->find($id);
+		$model = $this->user->find($id);
+		$model->password = null;
+		$data["model"] = $model;
 		$data['title'] = "ユーザシステム";
 
 		$this->load->view('layouts/header', $data);
@@ -111,13 +138,36 @@ class Users extends CI_Controller {
 
 	public function update($id)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
+
 		$this->load->helper(array('form', 'url'));
 
         $this->load->library('form_validation');
         $errors_validation_range = array(
         	array('field'=>'name', 'label'=>'ユーザ名', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'email', 'label'=>'email', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
-        	array('field'=>'password', 'label'=>'Password', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
+        	array('field'=>'email', 'label'=>'email',
+        		'rules'=>array(
+        			'required',
+        			array('unique_email', function($email='') use ($id)
+				        {
+							$this->load->model('user');
+							$user = $this->user->find($id);
+
+							$email_exist = $this->user->exists($id, 'email', $email);
+
+							return (!$email_exist);
+				        }
+				    ),
+        		), 
+        		"errors"=>array(
+        			'required' => 'You must input into %s.',
+        			'unique_email' => 'email must be unique. email is existing in database.'
+        		),
+        	),
+        	// array('field'=>'password', 'label'=>'Password', 'rules'=>'required', "errors"=>array('required' => 'You must input into %s.')),
         );
         $this->form_validation->set_rules($errors_validation_range);
 
@@ -125,6 +175,7 @@ class Users extends CI_Controller {
 			$this->edit($id);
         }else{
 			$this->load->model('user');
+
 			$data["model"] = $this->user->update();
 			redirect('/users', 'refresh');
         }
@@ -132,6 +183,11 @@ class Users extends CI_Controller {
 
 	public function delete($id)
 	{
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
+
 		$this->load->helper(array('url'));
 
 		$this->load->model('user');
@@ -141,7 +197,10 @@ class Users extends CI_Controller {
 
 	public function show($id)
 	{
-		// $this->load->helper(array('url'));
+        $user = $this->session->userdata('user');
+        if(!$user){
+			abort(401);
+		}
 
 		$this->load->model('user');
 		$data["model"] = $this->user->find($id);
@@ -150,6 +209,86 @@ class Users extends CI_Controller {
 		$this->load->view('layouts/header', $data);
 		$this->load->view('users/show', $data);
 		$this->load->view('layouts/footer');
+	}
+
+	public function login()
+	{
+		$this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+
+		$data['title'] = "Login";
+
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->form_validation->set_rules('email', 'email', 'required|valid_email'); 
+            $this->form_validation->set_rules('password', 'Password', 'required');
+
+            if($this->form_validation->run() == true){
+				$this->load->model('user');
+                $checkLogin = $this->user->authorized();
+                if($checkLogin){
+					redirect('/users', 'refresh');
+                }else{
+                    $data['error_msg'] = 'Wrong email or password, please try again.';
+                }
+            // }else{ 
+            //     $data['error_msg'] = 'Please fill all the mandatory fields.';
+            }
+		}
+
+		$this->load->view('layouts/header', $data);
+		$this->load->view('users/login', $data);
+		$this->load->view('layouts/footer');
+	}
+
+	public function logout()
+	{
+		$this->load->model('user');
+        $checkLogin = $this->user->deauthorized();
+		redirect('/users/login', 'refresh');
+	}
+
+	public function cart(string $action, string $id = null)
+	{
+
+		$this->load->library('cart');
+		$this->load->product_name_safe = false;
+		switch ($action) {
+			case 'add':
+					$this->load->model('user');
+					$model = $this->user->find($id);
+					$data['id'] = $model->id;
+					$data['email'] = $model->email;
+					$data['name'] = $model->name;
+					$data['qty'] = 1;
+					$data['price'] = 0;
+					$data['model'] = $model;
+					// $data['options'] = json_decode(json_encode($model), true);
+					// $data['model'] = json_decode(json_encode($model), true);
+					$data['rowid'] = $this->cart->insert($data);
+
+					redirect('/users', 'refresh');
+				break;
+
+			case 'remove':
+					$this->cart->remove($id);
+
+					redirect('/users/cart/search', 'refresh');
+				break;
+
+			case 'search':
+					$this->load->helper(array('form', 'url'));
+
+					$data['title'] = "Cart";
+					$data['cart'] = $this->cart;
+
+					$this->load->view('layouts/header', $data);
+					$this->load->view('users/cart/list', $data);
+					$this->load->view('layouts/footer');
+				break;
+
+			default:
+				break;
+		}
 	}
 
 }

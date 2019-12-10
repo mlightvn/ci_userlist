@@ -7,6 +7,10 @@
 			<table class="table table-hover">
 				<tbody>
 					<tr>
+						<th>ID</th>
+						<td><?php echo ($model->id ?? ''); ?></td>
+					</tr>
+					<tr>
 						<th>ユーザ名</th>
 						<td><?php echo ($model->name ?? ''); ?></td>
 					</tr>

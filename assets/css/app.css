@@ -2,6 +2,7 @@ body{
 	background-color: #EFEFEF;
 }
 
+/*
 header{
 	background-color: #FFFFFF;
 	border-bottom-width: 2px;
@@ -9,7 +10,7 @@ header{
 	margin-bottom: 10px;
 	padding: 10px;
 }
-
+*/
 .body{
 	background-color: #FFFFFF;
 	margin-bottom: 10px;
@@ -27,16 +28,4 @@ header{
 
 .error-message{
 	color: #ff0000;
-}
-
-.pagination{
-
-}
-
-.pagination strong{
-	margin-right: 5px;
-}
-
-.pagination a{
-	margin-right: 5px;
 }
