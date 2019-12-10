@@ -116,7 +116,7 @@ class CI_Pagination {
 	 *
 	 * @var	string
 	 */
-	protected $first_link = '&lsaquo;aaa';
+	protected $first_link = '&lsaquo;';
 
 	/**
 	 * Next link
