@@ -28,6 +28,7 @@ class Users extends CI_Controller {
 		$this->load->library('cart');
 
 		$this->load->model('user');
+
 		$data['model_list'] = $this->user->paginate(10);
 
 		$data['title'] = "ユーザシステム";
