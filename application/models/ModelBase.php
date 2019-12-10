@@ -17,28 +17,31 @@ class ModelBase extends CI_Model {
 		$this->fields = $values;
 	}
 
+	public function search($request=[])
+	{
+	    $this->db->from($this->getTableName());
+		return $this->db;
+	}
+
+	private function getSearchResult($request=[])
+	{
+        $this->db->reset_query();
+
+		return $this->search($request);
+	}
+
 	public function paginate($page_row = 20)
 	{
 		$per_page = ($this->uri->segment(3)) ? ($this->uri->segment(3)) : 1;
 
 		$segment = ($per_page - 1) * $page_row;
         // ==================
-		foreach ($_REQUEST as $post_name => $post_value) {
-			if($post_value){
-				$this->db->like($post_name, $post_value);
-			}
-		}
-	    $this->db->from($this->getTableName());
+		$this->getSearchResult($_REQUEST);
 		$query = $this->db->get();
         $total_rows = $query->num_rows();
 
         // ==================
-		foreach ($_REQUEST as $post_name => $post_value) {
-			if($post_value){
-				$this->db->like($post_name, $post_value);
-			}
-		}
-	    $this->db->from($this->getTableName());
+		$this->getSearchResult($_REQUEST);
 	    $this->db->limit($page_row, $segment);
 		$query = $this->db->get();
 
@@ -154,6 +157,11 @@ class ModelBase extends CI_Model {
 		}
 
     	return false;
+    }
+
+    public function toSql()
+    {
+    	return $this->db->get_compiled_select();
     }
 
 }

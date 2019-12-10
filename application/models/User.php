@@ -1,11 +1,28 @@
 <?php
-// use ModelBase;
-
 class User extends ModelBase {
 
 	protected $table = 'users'; // ⭐️⭐️⭐️required⭐️⭐️⭐️
 	protected $fillable = ['email', 'name', 'password'];
 	// protected $passwordFields = ['password'];
+
+	public function search($request = [])
+	{
+		if($request['id']){
+			$this->db->where('id', $request['id']);
+		}
+
+		if($request['email']){
+			$this->db->like('email', $request['email']);
+		}
+
+		if($request['name']){
+			$this->db->like('name', $request['name']);
+		}
+
+	    $this->db->from($this->getTableName());
+
+		return $this->db;
+	}
 
 	public function authorized(){
 		$this->load->helper('password');
