@@ -8,7 +8,7 @@ $config['pagination_config'] = array(
 
 	'uri_segment' => 3,
 	'per_page' => 10,
-	'num_links' => 10,
+	'num_links' => 5,
 	'use_page_numbers' => TRUE,
 	// 'page_query_string' => TRUE,
 
