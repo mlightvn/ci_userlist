@@ -5,7 +5,7 @@ class ModelBase extends CI_Model {
 	protected $table = null; // ⭐️⭐️⭐️required⭐️⭐️⭐️
 	protected $fillable = [];
 	protected $passwordFields = ['password'];
-	protected $fields = [];
+	protected $attributes = [];
 
 	public function getTableName()
 	{
@@ -14,7 +14,16 @@ class ModelBase extends CI_Model {
 
 	public function fill($values = [])
 	{
-		$this->fields = $values;
+		if(!empty($values)){
+			$this->attributes = array_merge($this->attributes, $values);
+		}
+	}
+
+	public function get()
+	{
+	    $this->db->from($this->getTableName());
+	    $this->db->get();
+		return $this->db->result();
 	}
 
 	public function search($request=[])
@@ -90,39 +99,47 @@ class ModelBase extends CI_Model {
 	{
 		$this->load->helper('password');
 
-		foreach ($this->fillable as $index => $post_name) {
-			$post_value = ($_REQUEST[$post_name] ?? NULL);
-			if($post_value){
+		foreach ($this->fillable as $index => $request_name) {
+			$request_value = ($this->attributes[$request_name] ?? NULL);
+			if($request_value){
 				foreach ($this->passwordFields as $key => $passwordFieldName) {
-					if($post_name === $passwordFieldName){
-						$post_value = getHashedPassword($post_value);
+					if($request_name === $passwordFieldName){
+						$request_value = getHashedPassword($request_value);
 					}
 				}
-				$this->$post_name = $post_value;
+			}
+
+			if(isset($this->attributes[$request_name])){
+				$this->$request_name  	= $request_value;
 			}
 		}
 
 		$this->db->insert($this->getTableName(), $this);
 	}
 
-	public function update()
+	public function update($request = [])
 	{
+		$this->fill($request);
+
 		$this->load->helper('password');
 
-		foreach ($this->fillable as $index => $post_name) {
-			$post_value = ($_REQUEST[$post_name] ?? NULL);
-			if($post_value){
+		foreach ($this->fillable as $index => $request_name) {
+			$request_value = ($this->attributes[$request_name] ?? NULL);
+			if($request_value){
 				foreach ($this->passwordFields as $key => $passwordFieldName) {
-					if($post_name === $passwordFieldName){
-						$post_value = getHashedPassword($post_value);
+					if($request_name === $passwordFieldName){
+						$request_value = getHashedPassword($request_value);
 					}
 				}
-				$this->$post_name  	= $post_value;
+			}
+
+			if(isset($this->attributes[$request_name])){
+				$this->$request_name  	= $request_value;
 			}
 		}
 
 		$this->db->from($this->getTableName());
-		$this->db->update($this->getTableName(), $this, array('id' => $_POST['id']));
+		$this->db->update($this->getTableName(), $this, array('id' => $this->attributes['id']));
 	}
 
 	public function delete($id)

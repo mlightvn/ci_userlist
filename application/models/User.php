@@ -7,15 +7,15 @@ class User extends ModelBase {
 
 	public function search($request = [])
 	{
-		if($request['id']){
+		if(isset($request['id'])){
 			$this->db->where('id', $request['id']);
 		}
 
-		if($request['email']){
+		if(isset($request['email'])){
 			$this->db->like('email', $request['email']);
 		}
 
-		if($request['name']){
+		if(isset($request['name'])){
 			$this->db->like('name', $request['name']);
 		}
 
@@ -60,8 +60,8 @@ class User extends ModelBase {
     }
 
 	public function email_exists($email = NULL, $id = NULL){
-		$email = ($email ?? $_REQUEST['email']);
-		$id = ($id ?? $_REQUEST['id']);
+		$email = ($email ?? $this->attributes['email'] ?? $_REQUEST['email']);
+		$id = ($id ?? $this->attributes['id'] ?? $_REQUEST['id'] ?? NULL);
 
 		return $this->exists($id, 'email', $email);
 

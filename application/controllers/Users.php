@@ -105,8 +105,9 @@ class Users extends CI_Controller {
 			$this->create();
         }else{
 			$this->load->model('user');
+			$this->user->fill($_REQUEST);
 
-			$email_exist = $this->user->email_exist();
+			$email_exist = $this->user->email_exists();
 			if($email_exist){
 				show_error("email ('" . $_REQUEST['email'] . "') is existing in DB.", 501, "Custom error.");
 			}else{
@@ -177,6 +178,7 @@ class Users extends CI_Controller {
         }else{
 			$this->load->model('user');
 
+			$this->user->fill($_REQUEST);
 			$data["model"] = $this->user->update();
 			redirect('/users', 'refresh');
         }
